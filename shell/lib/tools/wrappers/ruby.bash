@@ -39,12 +39,12 @@ function ruby__rehash() {
 
 ruby__load_shell
 
-function ruby__add_ecosystem_gems_to_path() {
-  for dir in $(find "${ECOSYSTEM_PATHS_RUBY_HOME}" -name bin -type d) ; do
+function ruby__add_pemba_gems_to_path() {
+  for dir in $(find "${PEMBA_PATHS_RUBY_HOME}" -name bin -type d) ; do
     export PATH="$dir:$PATH"
   done
 }
-ruby__add_ecosystem_gems_to_path
+ruby__add_pemba_gems_to_path
 
 function ruby__add_workspace_gems_to_path() {
 	if [[ -e "${PATHS_PROJECT_WORKSPACE_SETTINGS_RUBY_HOME}" ]]; then

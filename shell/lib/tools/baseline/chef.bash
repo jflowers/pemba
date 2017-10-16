@@ -10,7 +10,7 @@ require 'baseline/git'
 function baseline__chef__up_to_date_q(){
   require 'env-vars/chef'
 
-  baseline__record_baseline_input "${ECOSYSTEM_CHEF_HOME}/**/*"
+  baseline__record_baseline_input "${PEMBA_CHEF_HOME}/**/*"
   baseline__record_baseline_input "${PATHS_PROJECT_WORKSPACE_SETTINGS_CHEF_HOME}/**/*"
 
   register_baseline_installer_function baseline__chef__install_chef

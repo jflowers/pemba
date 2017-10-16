@@ -101,7 +101,7 @@ puts Digest::MD5.hexdigest(File.read('${BASELINE_TMP_STATE_FILE}'))
 
 function baseline___ensure_baseline_is_met() {
   local baseline_bash_source_file_path=''
-  for baseline_bash_source_file_path in ${ECOSYSTEM_PATHS_SHELL_LIB_HOME}/tools/baseline/*.bash ;
+  for baseline_bash_source_file_path in ${PEMBA_PATHS_SHELL_LIB_HOME}/tools/baseline/*.bash ;
   do
     source "${baseline_bash_source_file_path}"
   done

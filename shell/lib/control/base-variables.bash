@@ -1,11 +1,11 @@
 #!/usr/bin/env bash
 
-function set_ecosystem_variables() {
+function set_pemba_variables() {
   export TERM=xterm-256color
   export DELIMITER='-.-'
 
   local lib_directory_path=''
-  for lib_directory_path in "${ECOSYSTEM_PATHS_SHELL_LIB_HOME}"/*/ ; do
+  for lib_directory_path in "${PEMBA_PATHS_SHELL_LIB_HOME}"/*/ ; do
     if [[ "$(basename "${lib_directory_path}")" != "auto_load" ]]; then
       add_directory_to_load_path "${lib_directory_path}"
     fi
@@ -29,9 +29,9 @@ function set_base_project_workspace_variables() {
 
   set_unless PATHS_PROJECT_HOME "$(absolute_path "$(dirname "${BASH_SOURCE[2]}")")"
 
-  ecosystem_override="${PATHS_PROJECT_HOME}/.ecosystem.overrides"
-  if [[ -e "${ecosystem_override}" && $ENABLE_ECOSYSTEM_OVERRIDE == true ]]; then
-    source "${ecosystem_override}"
+  pemba_override="${PATHS_PROJECT_HOME}/.pemba.overrides"
+  if [[ -e "${pemba_override}" && $ENABLE_PEMBA_OVERRIDE == true ]]; then
+    source "${pemba_override}"
   fi
 
   set_unless PATHS_PROJECT_SCRATCH_HOME "${PATHS_PROJECT_HOME}/scratch"

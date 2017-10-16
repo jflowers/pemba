@@ -3,8 +3,8 @@
 if [[ -z "$AUTO_BOOTSTRAP" ]]; then
   export AUTO_BOOTSTRAP=true
 fi
-if [[ -z "$ENABLE_ECOSYSTEM_OVERRIDE" ]]; then
-  export ENABLE_ECOSYSTEM_OVERRIDE=true
+if [[ -z "$ENABLE_PEMBA_OVERRIDE" ]]; then
+  export ENABLE_PEMBA_OVERRIDE=true
 fi
 if [[ -z "$ENABLE_PERSONAL_WORKSPACE_SETTINGS" ]]; then
   export ENABLE_PERSONAL_WORKSPACE_SETTINGS=true
@@ -14,7 +14,7 @@ source "$(dirname ${BASH_SOURCE[0]})/../utils/eval-file.bash"
 
 require_relative 'base-variables'
 
-set_ecosystem_variables
+set_pemba_variables
 
 require 'os'
 
@@ -78,7 +78,7 @@ function bootstrap() {
   require_relative 'baseline'
 
   local auto_load_bash_source_file_path=''
-  for auto_load_bash_source_file_path in `find $ECOSYSTEM_PATHS_SHELL_LIB_HOME/auto_load -type f -iname '*.bash'`; do
+  for auto_load_bash_source_file_path in `find $PEMBA_PATHS_SHELL_LIB_HOME/auto_load -type f -iname '*.bash'`; do
   	source "$auto_load_bash_source_file_path"
   done
 

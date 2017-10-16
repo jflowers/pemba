@@ -14,7 +14,7 @@ function chef__configure_workspace(){
 
   export VALIDATE_INTEGRITY=false
 
-  sudo__execute_with_administrator_privileges chef-solo -c "${ECOSYSTEM_CHEF_HOME}/solo.rb" -j "${ECOSYSTEM_CHEF_HOME}/node.json"  "${*}"
+  sudo__execute_with_administrator_privileges chef-solo -c "${PEMBA_CHEF_HOME}/solo.rb" -j "${PEMBA_CHEF_HOME}/node.json"  "${*}"
   local chef_exit_code=$?
   if [[ $chef_exit_code == 0 ]]; then
     set_integrity

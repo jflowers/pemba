@@ -12,7 +12,7 @@ function bundle(){
   local bundle_command=$1
 
   if [[ $bundle_command == "install" || $bundle_command == "package" || $bundle_command == "update" ]]; then
-    if [[ "$BUNDLE_GEMFILE" -nt "$PATHS_PROJECT_BUNDLE_INSTALL_FLAG_FILE" || "$ECOSYSTEM_BUNDLE_GEMFILE" -nt "$PATHS_PROJECT_BUNDLE_INSTALL_FLAG_FILE" ]]; then
+    if [[ "$BUNDLE_GEMFILE" -nt "$PATHS_PROJECT_BUNDLE_INSTALL_FLAG_FILE" || "$PEMBA_BUNDLE_GEMFILE" -nt "$PATHS_PROJECT_BUNDLE_INSTALL_FLAG_FILE" ]]; then
 
       case $OS_NAME in
         Darwin)
@@ -25,7 +25,7 @@ function bundle(){
 
       if [[ $bundle_command == "update" ]]; then
         _bundle update
-      elif [[ "$BUNDLE_GEMFILE" -nt "${BUNDLE_GEMFILE}.lock" || "$ECOSYSTEM_BUNDLE_GEMFILE" -nt "${BUNDLE_GEMFILE}.lock" ]]; then
+      elif [[ "$BUNDLE_GEMFILE" -nt "${BUNDLE_GEMFILE}.lock" || "$PEMBA_BUNDLE_GEMFILE" -nt "${BUNDLE_GEMFILE}.lock" ]]; then
         _bundle package
       else
         _bundle install --local
@@ -59,7 +59,7 @@ function _bundle(){
 
 function _ensure_bundler_installed(){
   if [[ ! -d "$GEM_HOME/gems/bundler-${BUNDLER_VERSION}" ]]; then
-    RUBYOPT='' BUNDLE_BIN_PATH='' gem install --local "${ECOSYSTEM_BUNDLE_HOME}/bundler-${BUNDLER_VERSION}.gem"
+    RUBYOPT='' BUNDLE_BIN_PATH='' gem install --local "${PEMBA_BUNDLE_HOME}/bundler-${BUNDLER_VERSION}.gem"
     fail_if "failed to install bundle gem"
   fi
 }
