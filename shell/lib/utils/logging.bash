@@ -111,6 +111,9 @@ function fail_if(){
   fi
 
   if [[ $condition != 0 ]]; then
+    if [[ -n "$3" ]]; then
+      cd $3
+    fi
     fail "$message"
   fi
 }

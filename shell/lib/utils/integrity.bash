@@ -19,7 +19,6 @@ function set_integrity() {
   export BASH_SOURCE_LOCK="$(get_source_latest "${PEMBA_PATHS_SHELL_HOME}")"
   export BASH_SOURCE_LOCK="$BASH_SOURCE_LOCK$(get_source_latest "${PATHS_PROJECT_WORKSPACE_SETTINGS_SHELL_HOME}")"
   export BASH_SOURCE_LOCK="$BASH_SOURCE_LOCK$(get_file_time "${PATHS_PROJECT_HOME}/.pemba")"
-  export BASH_SOURCE_LOCK="$BASH_SOURCE_LOCK$(get_source_latest "${PATHS_PROJECT_WORKSPACE_SETTINGS_HOME}/chef")"
 }
 
 set_integrity
