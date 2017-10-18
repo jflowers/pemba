@@ -10,6 +10,7 @@ export PYTHON_TYPE_NAME="pyenv"
 export PYTHON_VIRTUALENV="${PYTHON_TYPE_NAME}-${PYTHON_VERSION}"
 
 export PEMBA_PATHS_PYTHON_HOME="${PEMBA_PATHS_HOME}/python"
+export PYTHONPATH=$PEMBA_PATHS_PYTHON_HOME
 
 require 'env-vars/pipenv'
 
