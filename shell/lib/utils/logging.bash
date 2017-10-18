@@ -85,7 +85,13 @@ function fail(){
   fi
 
   error "$message"
-  backtrace -s 1
+
+  local skip_callers=1
+  if [[ -n "$2" ]]; then
+    skip_callers=$2
+  fi
+
+  backtrace -s $skip_callers
 
   _bail
 }
@@ -114,7 +120,7 @@ function fail_if(){
     if [[ -n "$3" ]]; then
       cd $3
     fi
-    fail "$message"
+    fail "$message" 2
   fi
 }
 
@@ -184,14 +190,17 @@ function backtrace() {
     local func_name="${FUNCNAME[$i]}"
     [[ -z "$func_name" || "$func_name" == "main" ]] && break
 
-    #local line_number="${BASH_LINENO[$i]}"
+    local line_number="${BASH_LINENO[$i]}"
+    if [[ $line_number =~ ^- ]]; then
+      line_number=0
+    fi
 
     local file_path="$(absolute_path "${BASH_SOURCE[$i]}")"
     [ -z "$file_path" ] && file_path="eval"
 
     ((count++))
     trace="${trace}
-${padding_string}${file_path}: ${func_name}"
+${padding_string}${file_path}:${line_number}: ${func_name}"
   done
 
   _REMEMBER_SKIP_BACKTRACE=$(expr ${_REMEMBER_SKIP_BACKTRACE} + $cumulative_stack_size - $skip_callers)
