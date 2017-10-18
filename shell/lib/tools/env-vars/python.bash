@@ -5,6 +5,8 @@ export PYENV_ROOT="/usr/local/pyenv-$PYENV_TOOL_VERSION"
 export PYTHON_VERSION="${PYTHON_VERSION:=2.7.14}"
 export PYTHON_TYPE_NAME="pyenv"
 
+export PYTHON_VIRTUALENV="${PYTHON_TYPE_NAME}-${PYTHON_VERSION}"
+
 export PEMBA_PATHS_PYTHON_HOME="${PEMBA_PATHS_HOME}/python"
 
 require 'env-vars/pipenv'
