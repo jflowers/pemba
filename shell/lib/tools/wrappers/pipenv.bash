@@ -7,28 +7,19 @@ require 'env-vars/pipenv'
 function pipenv(){
   assert_set_env_is_up_to_date
 
-  _ensure_pipenv_installed
-
   local pipenv_command=$1
 
   if [[ $pipenv_command == "install" || $pipenv_command == "package" || $pipenv_command == "update" ]]; then
-    if [[ "$PIPENV_GEMFILE" -nt "$PATHS_PROJECT_PIPENV_INSTALL_FLAG_FILE" || "$PEMBA_PIPENV_GEMFILE" -nt "$PATHS_PROJECT_PIPENV_INSTALL_FLAG_FILE" ]]; then
-
-      case $OS_NAME in
-        Darwin)
-          _pipenv config build.nokogiri --with-xml2-include=/usr/local/Cellar/libxml2/2.9.4/include/libxml2/libxml --with-xml2-lib=/usr/local/Cellar/libxml2/2.9.4/lib --with-xslt-dir=/usr/local/Cellar/libxslt/1.1.28_1
-          ;;
-        *)
-          _pipenv config build.nokogiri --use-system-libraries
-          ;;
-      esac
+    if [[ "$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE" -nt "$PATHS_PROJECT_PIPENV_INSTALL_FLAG_FILE" || "$PEMBA_PIPENV_PIPFILE" -nt "$PATHS_PROJECT_PIPENV_INSTALL_FLAG_FILE" ]]; then
 
       if [[ $pipenv_command == "update" ]]; then
+        warn 'calling pipenv update, not sure yet if this is the right thing to do here'
         _pipenv update
-      elif [[ "$PIPENV_GEMFILE" -nt "${PIPENV_GEMFILE}.lock" || "$PEMBA_PIPENV_GEMFILE" -nt "${PIPENV_GEMFILE}.lock" ]]; then
-        _pipenv package
+      elif [[ "$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE" -nt "${PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE}.lock" || "$PEMBA_PIPENV_PIPFILE" -nt "${PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE}.lock" ]]; then
+        warn 'calling pipenv lock, not sure yet if this is the right thing to do here'
+        _pipenv lock
       else
-        _pipenv install --local
+        _pipenv install
       fi
 
       touch $PATHS_PROJECT_PIPENV_INSTALL_FLAG_FILE
@@ -38,35 +29,33 @@ function pipenv(){
     fi
   fi
 
-  eval "$RUBY_BIN $PIPENV_BIN ${*}"
+  eval "_pipenv ${*}"
   fail_if "Failed to execute: ${*}"
   return 0
 }
 
 function _pipenv(){
+  _ensure_pipenv_installed
+
   cd $PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_HOME
 
-  debug "exec [RUBYOPT='' PIPENV_BIN_PATH='' $RUBY_BIN $PIPENV_BIN ${*}] in [$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_HOME]"
+  debug "exec [$PIPENV_BIN ${*}] in [$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_HOME]"
 
-  eval "RUBYOPT='' PIPENV_BIN_PATH='' $RUBY_BIN $PIPENV_BIN ${*}" 1>&2
+  eval "$PIPENV_BIN ${*}" 1>&2
   local pipenv_exit_code=$?
 
   cd $OLDPWD
-  fail_if "Failed to execute: [pipenv ${*}] in [$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_HOME]" $pipenv_exit_code
+  fail_if "Failed to execute: [$PIPENV_BIN ${*}] in [$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_HOME]" $pipenv_exit_code
 
-  ruby__rehash
+  python__rehash
 }
 
 function _ensure_pipenv_installed(){
-  if [[ ! -d "$GEM_HOME/gems/pipenv-${PIPENV_VERSION}" ]]; then
-    RUBYOPT='' PIPENV_BIN_PATH='' gem install --local "${PEMBA_PIPENV_HOME}/pipenv-${PIPENV_VERSION}.gem"
-    fail_if "failed to install pipenv gem"
+  if [[ ! $(which pipenv) ]]; then
+    pip install pipenv
+    fail_if "failed to install pipenv pip"
   fi
-}
-
-function gem_bin_path() {
-  pipenv install --local
-
-  RUBYOPT='' $RUBY_BIN -e "puts Gem.bin_path('$1', '$2')"
-  fail_if "failed to find gem bin path for $1 $2"
+  if [[ -z "$PIPENV_BIN" ]]; then
+    export PIPENV_BIN="$(which pipenv)"
+  fi
 }

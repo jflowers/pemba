@@ -14,9 +14,8 @@ function baseline__pipenv__up_to_date_q(){
 }
 
 function baseline__pipenv__install_pipenv() {
-  warn 'pipenv baseline install needs implementation!!!'
-  # require 'wrappers/pipenv'
-  # pipenv 'install' '--local'
+  require 'wrappers/pipenv'
+  pipenv 'install'
 }
 
 

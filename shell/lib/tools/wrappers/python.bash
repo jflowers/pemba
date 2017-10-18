@@ -4,7 +4,7 @@ require 'env-vars/python'
 require 'wrappers/pipenv'
 
 function python(){
-  # pipenv 'install' '--local'
+  pipenv 'install'
 
   $PYTHON_BIN "$@"
   fail_if "Failed to execute: python ${*}"
@@ -48,18 +48,18 @@ function python__rehash() {
 
 python__load_shell
 
-function python__add_pemba_gems_to_path() {
-  for dir in $(find "${PEMBA_PATHS_PYTHON_HOME}" -name bin -type d) ; do
-    export PATH="$dir:$PATH"
-  done
-}
-python__add_pemba_gems_to_path
-
-function python__add_workspace_gems_to_path() {
-  if [[ -e "${PATHS_PROJECT_WORKSPACE_SETTINGS_PYTHON_HOME}" ]]; then
-    for dir in $(find "${PATHS_PROJECT_WORKSPACE_SETTINGS_PYTHON_HOME}" -name bin -type d) ; do
-      export PATH="$dir:$PATH"
-    done
-  fi
-}
-python__add_workspace_gems_to_path
+# function python__add_pemba_gems_to_path() {
+#   for dir in $(find "${PEMBA_PATHS_PYTHON_HOME}" -name bin -type d) ; do
+#     export PATH="$dir:$PATH"
+#   done
+# }
+# python__add_pemba_gems_to_path
+#
+# function python__add_workspace_gems_to_path() {
+#   if [[ -e "${PATHS_PROJECT_WORKSPACE_SETTINGS_PYTHON_HOME}" ]]; then
+#     for dir in $(find "${PATHS_PROJECT_WORKSPACE_SETTINGS_PYTHON_HOME}" -name bin -type d) ; do
+#       export PATH="$dir:$PATH"
+#     done
+#   fi
+# }
+# python__add_workspace_gems_to_path
