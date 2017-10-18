@@ -47,6 +47,16 @@ function python__rehash() {
   pyenv rehash
 }
 
+function pip_path() {
+  cd $TMPDIR
+  local pips_path=$(python -c "import $1; print($1.__file__);")
+  if [[ $pips_path =~ __init__.py ]]; then
+    pips_path=$(dirname "$pips_path")
+  fi
+  echo $pips_path
+  cd $OLDPWD
+}
+
 python__load_shell
 
 # function python__add_pemba_gems_to_path() {

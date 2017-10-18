@@ -120,6 +120,21 @@ function search_gem() {
   eval "search ${*} $(gem_path ${gem_name})"
 }
 
+function open_pip() {
+  if [[ -z "$1" ]]; then
+    fail "one argument is required: pip_name"
+  fi
+
+  open "$(pip_path "$1")"
+}
+
+function search_pip() {
+  local pip_name="${@: -1}"
+  set -- "${@:1:$(($#-1))}"
+
+  eval "search ${*} $(pip_path ${pip_name})"
+}
+
 function wear_hat() {
   export HATS=$1:$HATS
 }
