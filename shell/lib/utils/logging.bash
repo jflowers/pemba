@@ -190,7 +190,7 @@ function backtrace() {
     local func_name="${FUNCNAME[$i]}"
     [[ -z "$func_name" || "$func_name" == "main" ]] && break
 
-    local line_number="${BASH_LINENO[$i]}"
+    local line_number="${BASH_LINENO[$i-1]}"
     if [[ $line_number =~ ^- ]]; then
       line_number=0
     fi
