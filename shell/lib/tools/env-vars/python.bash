@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+export PYTHONDONTWRITEBYTECODE=true
+
 export PYENV_TOOL_VERSION=1.1.5
 export PYENV_ROOT="/usr/local/pyenv-$PYENV_TOOL_VERSION"
 export PYTHON_VERSION="${PYTHON_VERSION:=2.7.14}"
