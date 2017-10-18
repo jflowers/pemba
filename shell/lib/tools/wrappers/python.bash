@@ -31,6 +31,7 @@ function python__load_shell() {
 
 	local python_virtualenvs=($(pyenv virtualenvs))
 	if ! contains 'python_virtualenvs' "${PYTHON_VIRTUALENV}" ; then
+    pyenv shell "${PYTHON_VERSION}"
 		pyenv virtualenv "${PYTHON_VIRTUALENV}"
 		fail_if "unable set python version with pyenv"
 	fi
