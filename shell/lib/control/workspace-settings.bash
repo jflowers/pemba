@@ -53,30 +53,26 @@ function show_workspace_settings() {
   	do
   		debug "     $(printf "%-24s %s\n" $env_key): ${!env_key}"
   	done
-    
+
     debug "
 "
   fi
 
   good "
-     Vagrantfile:
-       ${PATHS_PROJECT_DEPLOY_VAGRANT_CONTEXT_VAGRANTFILE}
-
-     Possible Rake files:
-       ${PATHS_PROJECT_WORKSPACE_SETTINGS_RAKE_LIB_TASKS_HOME}/vagrant/${VAGRANT_DEFAULT_PROVIDER}/tasks.rb
-       ${PATHS_PROJECT_WORKSPACE_SETTINGS_RAKE_LIB_TASKS_HOME}/vagrant/${VAGRANT_CONTEXT}/tasks.rb"
+     Possible Shovel files:
+"
 
 
   local hat=''
   for hat in ${HATS//:/$'\n'}
   do
-      good "       ${PATHS_PROJECT_WORKSPACE_SETTINGS_RAKE_LIB_TASKS_HOME}/hat/${hat}.rb"
+      good "       ${PATHS_PROJECT_WORKSPACE_SETTINGS_SHOVEL_LIB_TASKS_HOME}/hat/${hat}.py"
   done
 
   local test_type=''
   for test_type in ${TEST_TYPES//:/$'\n'}
   do
-      good "       ${PATHS_PROJECT_WORKSPACE_SETTINGS_RAKE_LIB_TASKS_HOME}/test/${test_type}.rb"
+      good "       ${PATHS_PROJECT_WORKSPACE_SETTINGS_SHOVEL_LIB_TASKS_HOME}/test/${test_type}.py"
   done
 
   good "
@@ -85,9 +81,8 @@ function show_workspace_settings() {
         change_workspace_setting
 
      Tips:
-        * execute the command 'rake -D' to see a list of available tasks
-        * use tab completion with rake task names - 
-              (note only required arguments are shown in tab completion)
+        * execute the command 'shovel ?!?update thist?!?' to see a list of available tasks
+        * use tab completion with shovel task names
 
 
 
@@ -103,7 +98,7 @@ function _choose_workspace_settings() {
 #####################################################################################################
 
 
-     Choose a workspace setting. This will tailor the workspace experience to 
+     Choose a workspace setting. This will tailor the workspace experience to
       the activities you perform. You can always change this by executing the
       command change_workspace_setting.
 
@@ -145,18 +140,11 @@ function activate_workspace_setting() {
   reset_workspace_setting_environment_variable
 
   export PATHS_PROJECT_DEPLOY_VAGRANT_HOME="${PATHS_PROJECT_DEPLOY_HOME}/vagrant"
-  
+
   eval "${WORKSPACE_SETTINGS_FUNCTION_PREFIX}${WORKSPACE_SETTING}"
 
   validate_required_workspace_setting_environment_variables
 
-  export PATHS_PROJECT_DEPLOY_VAGRANT_LIB="${PATHS_PROJECT_DEPLOY_VAGRANT_HOME}/lib"
-  export PATHS_PROJECT_DEPLOY_VAGRANT_CONTEXT_HOME="${PATHS_PROJECT_DEPLOY_VAGRANT_HOME}/${VAGRANT_CONTEXT}"
-  export PATHS_PROJECT_DEPLOY_VAGRANT_STATE="${PATHS_PROJECT_DEPLOY_VAGRANT_CONTEXT_HOME}/.vagrant"
-  export PATHS_PROJECT_DEPLOY_VAGRANT_CONTEXT_VAGRANTFILE="${PATHS_PROJECT_DEPLOY_VAGRANT_CONTEXT_HOME}/Vagrantfile"
-
-  export VAGRANT_VAGRANTFILE="${PATHS_PROJECT_DEPLOY_VAGRANT_CONTEXT_VAGRANTFILE}"
-  
   fail_if "unable to activate workspace ${WORKSPACE_SETTING}"
 
   rename_terminal
@@ -170,7 +158,7 @@ function bootstrap_workspace_settings() {
   WORKSPACE_SETTING_NAMES=()
 
   local required_variable=''
-  for var_name in VAGRANT_DEFAULT_PROVIDER VAGRANT_CONTEXT TEST_TYPES HATS ;
+  for var_name in TEST_TYPES HATS ;
   do
     REQUIRED_WORKSPACE_SETTING_ENVIRONMENT_VARIABLES+=("$var_name")
   done
@@ -187,7 +175,7 @@ function load_workspace_settings() {
   if [[ -z "$WORKSPACE_SETTING" ]]; then
     _choose_workspace_settings
   fi
-  
+
   function__execute_if_exists 'before_workspace_settings'
   activate_workspace_setting
   function__execute_if_exists 'after_workspace_settings'
