@@ -39,7 +39,7 @@ function python__load_shell() {
   pyenv shell "${PYTHON_VIRTUALENV}"
   fail_if "unable set python version with pyenv"
 
-  export PYTHON_BIN=$(which python)
+  export PYTHON_BIN=$(pyenv which python)
   return 0
 }
 
