@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 
 require 'env-vars/python'
-require 'wrappers/pipenv'
 
 function python(){
   pipenv 'install'
