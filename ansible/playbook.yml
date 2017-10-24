@@ -1,7 +1,0 @@
-- hosts: localhost
-  tasks:
-    - name: configure the workspace
-      workspace:
-      register: result
-
-    - debug: var=result  

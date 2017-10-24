@@ -2,29 +2,10 @@
 
 require 'env-vars/ansible'
 
-function ansible(){
-  _ansible "${*}"
-}
-
-function _ansible(){
-  pipenv 'install'
-
-  cd "${PEMBA_ANSIBLE_HOME}"
-
-    "${ANSIBLE_BIN}" "${*}"
-    local exit_code=$?
-
-  cd $OLDPWD
-
-  rename_terminal
-
-  fail_if "failed to execute: ansible ${*}" $exit_code
-}
-
 function ansible__configure_workspace(){
   pipenv 'install'
 
-  cd "${PEMBA_ANSIBLE_HOME}"
+  cd "${PATHS_PROJECT_WORKSPACE_SETTINGS_ANSIBLE_HOME}"
 
     echo ""
     echo "$(colorize -t $LIGHT_CYAN 'beginning workspace configuration with ansible, admin privilages required, you may be prompted...')"
@@ -32,7 +13,7 @@ function ansible__configure_workspace(){
 
     export VALIDATE_INTEGRITY=false
 
-    sudo__execute_with_administrator_privileges "${ANSIBLE_PLAYBOOK_BIN}" playbook.yml -i "${PEMBA_ANSIBLE_HOME}/hosts"
+    ansible-playbook playbook.yml -i "${PEMBA_ANSIBLE_HOME}/hosts" -K
     local exit_code=$?
     if [[ $exit_code == 0 ]]; then
       set_integrity
