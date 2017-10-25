@@ -13,7 +13,7 @@ function ansible__configure_workspace(){
 
     export VALIDATE_INTEGRITY=false
 
-    ansible-playbook playbook.yml -i "${PEMBA_ANSIBLE_HOME}/hosts" -K
+    ANSIBLE_LIBRARY="${PATHS_PROJECT_WORKSPACE_SETTINGS_ANSIBLE_MODULES_HOME}" ansible-playbook playbook.yml -i "${PEMBA_ANSIBLE_HOME}/hosts" -K
     local exit_code=$?
     if [[ $exit_code == 0 ]]; then
       set_integrity
