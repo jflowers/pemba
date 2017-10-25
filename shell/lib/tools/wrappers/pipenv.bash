@@ -16,8 +16,8 @@ function pipenv(){
         warn 'calling pipenv update, not sure yet if this is the right thing to do here'
         _pipenv update
       elif [[ "$PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE" -nt "${PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE}.lock" || "$PEMBA_PIPENV_PIPFILE" -nt "${PATHS_PROJECT_WORKSPACE_SETTINGS_PIPENV_PIPFILE}.lock" ]]; then
-        warn 'calling pipenv lock, not sure yet if this is the right thing to do here'
-        _pipenv lock
+        warn 'calling pipenv install, not sure yet if this is the right thing to do here'
+        _pipenv install
       else
         _pipenv install
       fi
